@@ -5,6 +5,7 @@ import { authAction } from '../store/authSlice'
 import { useNavigate } from 'react-router-dom'
 import ForgotPassword from './ForgotPassword'
 import './Login.css'
+
 const Login=()=>{
 
   const nameRef=useRef()
@@ -89,6 +90,8 @@ const Login=()=>{
       
     
 }
+
+
 console.log(isLogin)
 
     return(
@@ -127,7 +130,7 @@ console.log(isLogin)
       {isLogin && <button  type='button' onClick={()=>{setForgotPassword(true)}} className='m-2 border border-none bg-none text-success fw-bold'>Forgot Password?</button>}
     </Form>
         </Container>}
-        {isForgotPassword && <ForgotPassword cancel={()=>setForgotPassword(false)}/>}
+        {isForgotPassword && <ForgotPassword cancel={()=>{setForgotPassword(false)}}/>}
         </Fragment>
 
     )

@@ -21,6 +21,8 @@ const Expense=require('./model/expense')
 
 const Order=require('./model/order')
 
+const ForgotPasswordRequest=require('./model/forgotPasswordRequest')
+
 require('dotenv').config()
 
 
@@ -38,6 +40,9 @@ Expense.belongsTo(Auth)
 
 Auth.hasMany(Order)
 Order.belongsTo(Auth)
+
+Auth.hasMany(ForgotPasswordRequest)
+ForgotPasswordRequest.belongsTo(Auth)
 
 app.use(authRoute)
 app.use(orderRoute)
