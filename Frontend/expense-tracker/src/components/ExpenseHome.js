@@ -28,6 +28,7 @@ const loadScript=(src)=>{
 const ExpenseHome=()=>{
 
   const [isLeaderBoaerd,setLeaderBoard]=useState(false)
+  const [isReport,getReport]=useState(false)
   const isPremium=useSelector(state=>state.auth.isPremium)
 
   const amountRef=useRef()
@@ -163,11 +164,13 @@ const ExpenseHome=()=>{
     </Col>
     <Col>
        {!isPremium && <Button variant="primary" onClick={buyPremium}>Buy Premium</Button>}
-       {isPremium && <div><h4>You Are A Premium User</h4><Button onClick={!isLeaderBoaerd?showLeaderBoard:()=>{setLeaderBoard(false)}}>{!isLeaderBoaerd?'Show LeaderBoard':'Hide LeaderBoard'}</Button></div>}
-    </Col>
+       {isPremium && <div><h4>You Are A Premium User</h4><Button className="mb-3" onClick={!isLeaderBoaerd?showLeaderBoard:()=>{setLeaderBoard(false)}}>{!isLeaderBoaerd?'Show LeaderBoard':'Hide LeaderBoard'}</Button></div>}
+       {isPremium && <a href="/report"  className=" border border-black text-decoration-none bg-success text-light ">Generate Report</a>}
+       </Col>
     </Row>
        <ExpenseList/>
        {isLeaderBoaerd && <ShowLeaderBoard />}
+       {}
         </Fragment>
     )
 }

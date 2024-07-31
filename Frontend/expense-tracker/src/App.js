@@ -7,6 +7,8 @@ import ExpenseHome from './components/ExpenseHome';
 import { UseSelector, useSelector,useDispatch } from 'react-redux';
 import { authAction } from './store/authSlice';
 import { expenseAction } from './store/expenseSlice';
+import Report from './components/reports/Report';
+
 function App() {
 
    const dispatch=useDispatch()
@@ -59,7 +61,7 @@ function App() {
         <Route path={isLogin?'/':'/add-expense'} element={isLogin?<Navigate to='/add-expense'/>:<Navigate to='/'/>}/>
            <Route path='/' element={<Login/>}/>
            <Route path='/add-expense' element={<ExpenseHome/>}/>
-           
+           <Route path='/report' element={<Report/>}/>
            
         </Routes>
       </main>

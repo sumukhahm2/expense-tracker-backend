@@ -3,6 +3,7 @@ const Order=require('../model/order')
 const userControler=require('../controler/auth')
 
 exports.purchsePremium=(req,res,next)=>{
+ 
     try{
        const rzp=new Razorpay({
         key_id:process.env.RAZOR_PAY_KEY_ID,
@@ -10,14 +11,16 @@ exports.purchsePremium=(req,res,next)=>{
        })
        const amount=2500
       
-       rzp.orders.create({amount,currency:'INR'},(err,order)=>{
+       rzp.orders.create({amount,currency:'INR'},async(err,order)=>{
         if(err){
            console.log(err)
         } 
         else{
-            const order=req.user.createOrder({OrderId:order.id,status:'PENDING'})
-           if(order)
+          console.log(order)
+            const ordr=await req.user.createOrder({OrderId:order.id,status:'PENDING'})
+           if(ordr)
           {
+            console.log(ordr)
             return res.status(201).json({order,key_id:rzp.key_id})
           }
           else
@@ -32,6 +35,7 @@ exports.purchsePremium=(req,res,next)=>{
 
 exports.updateTransaction=async (req,res,next)=>{
     try{  
+      console.log('updating transaction')
        const {payment_id,order_id}=req.body
        const order=await Order.findOne({where:{OrderId:order_id}})
        if(order)
