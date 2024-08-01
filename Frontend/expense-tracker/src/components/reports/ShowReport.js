@@ -39,7 +39,7 @@ const ShowReport=(props)=>{
           </tr>
       </tbody>
       </Table>
-        </Container>
+        </Container> 
     )
 }
 

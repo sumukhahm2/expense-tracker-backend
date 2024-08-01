@@ -2,6 +2,52 @@ const Expense=require('../model/expense')
 const Auth=require('../model/auth')
 const jwt=require('jsonwebtoken')
 const sequelize=require('../database/database')
+const AWS=require('aws-sdk')
+
+async function upLoadToS3(data,fileName){
+
+    const BUCKET_NAME='expensestrackers'
+    const IAM_USER_KEY=process.env.IAM_USER_KEY
+    const IAM_USER_SECRET=process.env.IAM_USER_SECRET
+
+    let s3Bucket=new AWS.S3({
+        accessKeyId:IAM_USER_KEY,
+        secretAccessKey:IAM_USER_SECRET,
+
+    })
+
+    
+        var params={
+            Bucket:BUCKET_NAME,
+            Key:fileName,
+            Body:data,
+            ACL:'public-read'
+        }
+        return new Promise((resolve,reject)=>{
+            s3Bucket.upload(params,(err,s3Response)=>{
+                if(err)
+                {
+                    console.log(err)
+                    reject(err)
+                }
+                else{
+                    console.log(s3Response)
+                    resolve(s3Response.Location)
+                }
+            })
+        
+        })
+       
+}
+exports.downloadExpenses=async(req,res)=>{
+    const expenses=await req.user.getExpenses()
+
+    const stringifiedExpenses=JSON.stringify(expenses)
+    const fileName=`Expense${req.user.id}/${new Date()}.csv`
+    const fileURL=await upLoadToS3(stringifiedExpenses,fileName)
+    res.status(200).json({url:fileURL})
+
+}
 
 exports.postExpense=async(req,res,next)=>{
    
@@ -98,6 +144,6 @@ exports.deleteExpense=async(req,res,next)=>{
     t.rollback()
     console.log(error)
    }
-}
+} 
 
 

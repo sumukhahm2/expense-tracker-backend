@@ -15,6 +15,8 @@ router.delete('/expense/delete-expense/:id',UserAuthenticate.authentication,Expe
 
 router.get('/user/get-premium',UserAuthenticate.authentication,AuthControler.getPremiumUser)
 
+router.get('/expense/download-expense',UserAuthenticate.authentication,ExpenseControler.downloadExpenses)
+
 router.get('/expense/get-allexpenses',ExpenseControler.getAllExpenses)
 
 module.exports=router
